@@ -2,14 +2,13 @@ import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerModule } from '@nestjs/throttler';
 
-import { AuthModule } from '@/modules/auth/auth.module';
-import { CarModule } from '@/modules/car/car.module';
-import { PrismaModule } from '@/prisma/prisma.module';
+import { AuthModule, CarModule } from '@/modules';
+import { PrismaModule } from '@/prisma';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
-import { JwtAuthGuard } from '@/modules/auth/guards/jwt-auth.guard';
-import { RolesGuard } from '@/modules/auth/guards/roles.guard';
+import { JwtAuthGuard, RolesGuard } from '@/modules/auth';
+
 import { ThrottlerGuard } from '@nestjs/throttler';
 import { AppGuard } from './app.guard';
 

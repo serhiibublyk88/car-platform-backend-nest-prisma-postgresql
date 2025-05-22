@@ -10,9 +10,9 @@ import {
 import { Throttle } from '@nestjs/throttler';
 import { Response } from 'express';
 import { AuthService } from './auth.service';
-import { Roles } from './decorators/roles.decorator';
+import { Roles } from './decorators';
 import { LoginDto } from './dto/auth.dto';
-import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { JwtAuthGuard } from './guards';
 
 const ONE_HOUR_MS = 60 * 60 * 1000;
 

@@ -1,8 +1,5 @@
-import {
-  CurrentUser,
-  JwtPayload,
-} from '@/modules/auth/decorators/current-user.decorator';
-import { JwtAuthGuard } from '@/modules/auth/guards/jwt-auth.guard';
+import { CurrentUser, JwtAuthGuard, JwtPayload } from '@/modules/auth';
+
 import {
   Body,
   Controller,

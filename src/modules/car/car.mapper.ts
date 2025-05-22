@@ -1,4 +1,4 @@
-import { Prisma } from '../../../generated/prisma';
+import { Prisma } from '@prisma/client';
 import { CreateCarDto, UpdateCarDto } from './dto';
 
 export const mapCreateCarDtoToPrisma = (

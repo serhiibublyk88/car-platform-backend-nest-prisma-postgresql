@@ -1,8 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { ThrottlerGuard } from '@nestjs/throttler';
 import { Request } from 'express';
-import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
-import { RolesGuard } from './modules/auth/guards/roles.guard';
+import { JwtAuthGuard, RolesGuard } from './modules/auth/';
 
 @Injectable()
 export class AppGuard implements CanActivate {

@@ -13,10 +13,10 @@
 
     "baseUrl": "./src",
     "paths": {
-      "@/*": ["*"]
+      "@/*": ["*"],
+      "@prisma/*": ["../generated/prisma/*"]
     },
 
-    /* Where both project-specific and default @types live */
     "typeRoots": ["./src/types", "./node_modules/@types"],
 
     "incremental": true,

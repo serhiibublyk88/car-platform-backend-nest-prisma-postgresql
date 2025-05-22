@@ -1,4 +1,4 @@
-import { PrismaService } from '@/prisma/prisma.service';
+import { PrismaService } from '@/prisma';
 import { Injectable } from '@nestjs/common';
 import {
   Condition,
@@ -7,8 +7,8 @@ import {
   Transmission,
   VehicleType,
 } from '@prisma/client';
-import { CreateCarDto, GetCarsQueryDto, UpdateCarDto } from './dto';
 import { mapCreateCarDtoToPrisma, mapUpdateCarDtoToPrisma } from './car.mapper';
+import { CreateCarDto, GetCarsQueryDto, UpdateCarDto } from './dto';
 
 @Injectable()
 export class CarRepository {
