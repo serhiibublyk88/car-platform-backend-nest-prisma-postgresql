@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CarRepository } from './car.repository';
-import { CreateCarDto } from './dto/create-car.dto';
-import { UpdateCarDto } from './dto/update-car.dto';
+import { CreateCarDto, GetCarsQueryDto, UpdateCarDto } from './dto';
 
 @Injectable()
 export class CarService {
@@ -37,7 +36,7 @@ export class CarService {
     return this.carRepository.toggleVisibility(id, visible);
   }
 
-  async getAllVisible() {
-    return this.carRepository.getAllVisible();
+  async getAllVisible(dto: GetCarsQueryDto) {
+    return this.carRepository.getAllVisible(dto);
   }
 }

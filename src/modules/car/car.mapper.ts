@@ -1,6 +1,5 @@
-import { CreateCarDto } from './dto/create-car.dto';
-import { UpdateCarDto } from './dto/update-car.dto';
 import { Prisma } from '../../../generated/prisma';
+import { CreateCarDto, UpdateCarDto } from './dto';
 
 export const mapCreateCarDtoToPrisma = (
   dto: CreateCarDto,

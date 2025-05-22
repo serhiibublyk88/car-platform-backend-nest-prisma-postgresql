@@ -1,13 +1,14 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { CarService } from '../car.service';
+import { GetCarsQueryDto } from '../dto';
 
 @Controller('cars')
 export class PublicCarController {
   constructor(private readonly carService: CarService) {}
 
   @Get()
-  getAllVisible() {
-    return this.carService.getAllVisible(); // пока без query-фильтров
+  getAllVisible(@Query() dto: GetCarsQueryDto) {
+    return this.carService.getAllVisible(dto);
   }
 
   @Get(':id')

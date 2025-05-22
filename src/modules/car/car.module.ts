@@ -1,11 +1,10 @@
-import { PrismaModule } from '@/prisma/prisma.module';
+import { PrismaModule } from '@/prisma';
 import { Module } from '@nestjs/common';
 
 import { CarRepository } from './car.repository';
 import { CarService } from './car.service';
 
-import { AdminCarController } from './controllers/admin-car.controller';
-import { PublicCarController } from './controllers/public-car.controller';
+import { AdminCarController, PublicCarController } from './controllers';
 
 @Module({
   imports: [PrismaModule],
