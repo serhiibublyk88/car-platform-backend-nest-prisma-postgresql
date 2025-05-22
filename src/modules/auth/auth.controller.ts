@@ -23,7 +23,10 @@ export class AuthController {
   @Post('login')
   @HttpCode(200)
   @Throttle({ limit: 5, ttl: 60 })
-  async login(@Body() dto: LoginDto, @Res() res: Response) {
+  async login(
+    @Body() dto: LoginDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
     const { accessToken } = await this.auth.login(dto);
 
     res.cookie('accessToken', accessToken, {
@@ -34,7 +37,7 @@ export class AuthController {
       path: '/',
     });
 
-    return res.send({ ok: true });
+    return { ok: true };
   }
 
   @UseGuards(JwtAuthGuard)
@@ -45,11 +48,11 @@ export class AuthController {
 
   @Post('logout')
   @HttpCode(200)
-  logout(@Res() res: Response) {
+  logout(@Res({ passthrough: true }) res: Response) {
     res.clearCookie('accessToken', { path: '/' });
-    return res.send({ ok: true });
+    return { ok: true };
   }
-  //  Тестовый маршрут для проверки роли
+
   @UseGuards(JwtAuthGuard)
   @Roles('ADMIN')
   @Get('admin-check')
