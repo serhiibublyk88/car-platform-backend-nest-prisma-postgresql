@@ -1,11 +1,19 @@
+import { PrismaModule } from '@/prisma/prisma.module';
 import { Module } from '@nestjs/common';
-import { CarController } from './car.controller';
-import { CarService } from './car.service';
+
 import { CarRepository } from './car.repository';
-import { PrismaService } from '../../prisma/prisma.service';
+import { CarService } from './car.service';
+
+import { AdminCarController } from './controllers/admin-car.controller';
+import { PublicCarController } from './controllers/public-car.controller';
 
 @Module({
-  controllers: [CarController],
-  providers: [CarService, CarRepository, PrismaService],
+  imports: [PrismaModule],
+
+  controllers: [PublicCarController, AdminCarController],
+
+  providers: [CarService, CarRepository],
+
+  exports: [CarService],
 })
 export class CarModule {}

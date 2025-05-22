@@ -1,0 +1,59 @@
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Post,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
+import { Response } from 'express';
+import { AuthService } from './auth.service';
+import { Roles } from './decorators/roles.decorator';
+import { LoginDto } from './dto/auth.dto';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
+
+const ONE_HOUR_MS = 60 * 60 * 1000;
+
+@Controller('auth')
+export class AuthController {
+  constructor(private readonly auth: AuthService) {}
+
+  @Post('login')
+  @HttpCode(200)
+  @Throttle({ limit: 5, ttl: 60 })
+  async login(@Body() dto: LoginDto, @Res() res: Response) {
+    const { accessToken } = await this.auth.login(dto);
+
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true,
+      sameSite: 'lax',
+      maxAge: ONE_HOUR_MS,
+      secure: process.env.NODE_ENV === 'production',
+      path: '/',
+    });
+
+    return res.send({ ok: true });
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('me')
+  whoAmI() {
+    return { ok: true };
+  }
+
+  @Post('logout')
+  @HttpCode(200)
+  logout(@Res() res: Response) {
+    res.clearCookie('accessToken', { path: '/' });
+    return res.send({ ok: true });
+  }
+  //  Тестовый маршрут для проверки роли
+  @UseGuards(JwtAuthGuard)
+  @Roles('ADMIN')
+  @Get('admin-check')
+  checkAdmin() {
+    return { message: 'You are ADMIN' };
+  }
+}
