@@ -1,10 +1,5 @@
 import { PrismaService } from '@/database';
-import {
-  HttpCode,
-  HttpStatus,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuditAction } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
@@ -37,8 +32,7 @@ export class AuthService {
     return this.generateToken(admin.id, admin.email);
   }
 
-  /* ─────────────── LOGOUT ───────────────*/
-  @HttpCode(HttpStatus.OK)
+  /* ─────────────── LOGOUT ─────────────── */
   async logout(adminId: string) {
     await this.prisma.auditLog.create({
       data: {
