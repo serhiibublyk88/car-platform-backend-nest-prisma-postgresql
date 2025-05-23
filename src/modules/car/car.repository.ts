@@ -62,8 +62,6 @@ export class CarRepository {
   async getAllVisible(dto: GetCarsQueryDto) {
     const {
       search,
-      page = 1,
-      limit = 10,
       priceFrom,
       priceTo,
       mileageFrom,
@@ -77,29 +75,22 @@ export class CarRepository {
       ...filters
     } = dto;
 
+    const page = Number(dto.page) || 1;
+    const limit = Number(dto.limit) || 10;
+    const skip = (page - 1) * limit;
+
     const where: Prisma.CarWhereInput = {
       visible: true,
       sold: false,
     };
 
-    //  Строгие строковые и числовые фильтры
-    if (filters.make) {
-      where.make = { equals: filters.make };
-    }
-    if (filters.model) {
-      where.model = { equals: filters.model };
-    }
-    if (filters.accidentFree !== undefined) {
+    if (filters.make) where.make = { equals: filters.make };
+    if (filters.model) where.model = { equals: filters.model };
+    if (filters.accidentFree !== undefined)
       where.accidentFree = { equals: filters.accidentFree };
-    }
-    if (filters.seats !== undefined) {
-      where.seats = { equals: filters.seats };
-    }
-    if (filters.doors !== undefined) {
-      where.doors = { equals: filters.doors };
-    }
+    if (filters.seats !== undefined) where.seats = { equals: filters.seats };
+    if (filters.doors !== undefined) where.doors = { equals: filters.doors };
 
-    //  Enum-фильтры через безопасную проверку
     if (
       filters.fuelType &&
       Object.values(FuelType).includes(filters.fuelType as FuelType)
@@ -128,7 +119,6 @@ export class CarRepository {
       where.vehicleType = { equals: filters.vehicleType as VehicleType };
     }
 
-    // 🔍 Поиск по строкам
     if (search) {
       where.OR = [
         { make: { contains: search, mode: 'insensitive' } },
@@ -137,7 +127,6 @@ export class CarRepository {
       ];
     }
 
-    // 🔢 Диапазоны
     if (priceFrom || priceTo) {
       where.price = {};
       if (priceFrom !== undefined) where.price.gte = priceFrom;
@@ -174,7 +163,7 @@ export class CarRepository {
     const [data, total] = await this.prisma.$transaction([
       this.prisma.car.findMany({
         where,
-        skip: (page - 1) * limit,
+        skip,
         take: limit,
         orderBy: { createdAt: 'desc' },
         include: { images: true },

@@ -33,7 +33,7 @@ export class CarService {
     await this.prisma.auditLog.create({
       data: {
         action: AuditAction.UpdateCar,
-        adminId: car.adminId!, // безопасно, так как машина существует
+        adminId: car.adminId!,
       },
     });
 
