@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerModule } from '@nestjs/throttler';
 
+import { PrismaModule } from '@/database';
 import { AuthModule, CarModule } from '@/modules';
-import { PrismaModule } from '@/prisma';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 

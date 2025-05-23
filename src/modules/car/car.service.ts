@@ -1,19 +1,43 @@
+import { PrismaService } from '@/database';
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { AuditAction } from '@prisma/client';
 import { CarRepository } from './car.repository';
 import { CreateCarDto, GetCarsQueryDto, UpdateCarDto } from './dto';
 
 @Injectable()
 export class CarService {
-  constructor(private readonly carRepository: CarRepository) {}
+  constructor(
+    private readonly carRepository: CarRepository,
+    private readonly prisma: PrismaService,
+  ) {}
 
   async create(dto: CreateCarDto, adminId: string) {
-    return this.carRepository.create(dto, adminId);
+    const car = await this.carRepository.create(dto, adminId);
+
+    await this.prisma.auditLog.create({
+      data: {
+        action: AuditAction.CreateCar,
+        adminId,
+      },
+    });
+
+    return car;
   }
 
   async update(id: string, dto: UpdateCarDto) {
     const car = await this.carRepository.findById(id);
     if (!car) throw new NotFoundException('Auto wurde nicht gefunden');
-    return this.carRepository.update(id, dto);
+
+    const updatedCar = await this.carRepository.update(id, dto);
+
+    await this.prisma.auditLog.create({
+      data: {
+        action: AuditAction.UpdateCar,
+        adminId: car.adminId!, // безопасно, так как машина существует
+      },
+    });
+
+    return updatedCar;
   }
 
   async getAll() {
@@ -29,7 +53,17 @@ export class CarService {
   async delete(id: string) {
     const car = await this.carRepository.findById(id);
     if (!car) throw new NotFoundException('Auto wurde nicht gefunden');
-    return this.carRepository.delete(id);
+
+    await this.carRepository.delete(id);
+
+    await this.prisma.auditLog.create({
+      data: {
+        action: AuditAction.DeleteCar,
+        adminId: car.adminId!,
+      },
+    });
+
+    return { success: true };
   }
 
   async toggleVisibility(id: string, visible: boolean) {

@@ -1,4 +1,4 @@
-import { PrismaModule } from '@/prisma';
+import { PrismaModule } from '@/database';
 import { Module } from '@nestjs/common';
 
 import { CarRepository } from './car.repository';

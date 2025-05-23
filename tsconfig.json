@@ -14,14 +14,15 @@
     "baseUrl": "./src",
     "paths": {
       "@/*": ["*"],
-      "@prisma/*": ["../generated/prisma/*"]
+      "@db/*": ["database/*"]
     },
 
     "typeRoots": ["./src/types", "./node_modules/@types"],
+    "types": ["node"],
 
     "incremental": true,
     "skipLibCheck": true,
-    "strictNullChecks": true,
+    "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": true,
     "strictBindCallApply": true,

@@ -60,6 +60,15 @@ enum Transmission {
   Schaltgetriebe
 }
 
+enum AuditAction {
+  CreateCar
+  UpdateCar
+  DeleteCar
+  Login
+  Logout
+}
+
+
 // ========== MODELS ==========
 
 model Car {
@@ -127,7 +136,7 @@ model Admin {
 
 model AuditLog {
   id        String   @id @default(cuid())
-  action    String
+  action    AuditAction
   createdAt DateTime @default(now())
 
   admin     Admin    @relation(fields: [adminId], references: [id])

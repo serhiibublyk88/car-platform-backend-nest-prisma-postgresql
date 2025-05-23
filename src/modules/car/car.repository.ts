@@ -1,4 +1,4 @@
-import { PrismaService } from '@/prisma';
+import { PrismaService } from '@db/database.service';
 import { Injectable } from '@nestjs/common';
 import {
   Condition,
@@ -82,7 +82,7 @@ export class CarRepository {
       sold: false,
     };
 
-    // ✅ Строгие строковые и числовые фильтры
+    //  Строгие строковые и числовые фильтры
     if (filters.make) {
       where.make = { equals: filters.make };
     }
@@ -99,7 +99,7 @@ export class CarRepository {
       where.doors = { equals: filters.doors };
     }
 
-    // ✅ Enum-фильтры через безопасную проверку
+    //  Enum-фильтры через безопасную проверку
     if (
       filters.fuelType &&
       Object.values(FuelType).includes(filters.fuelType as FuelType)

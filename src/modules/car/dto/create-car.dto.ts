@@ -9,6 +9,8 @@ import {
   Min,
 } from 'class-validator';
 
+/* ───────── Enums  ───────── */
+
 export enum VehicleType {
   Unselected = 'Unselected',
   Cabrio_Roadster = 'Cabrio_Roadster',
@@ -59,70 +61,72 @@ export enum Transmission {
   Schaltgetriebe = 'Schaltgetriebe',
 }
 
+/* ───────── DTO ───────── */
+
 export class CreateCarDto {
   @IsString()
-  make: string;
+  make!: string;
 
   @IsString()
-  model: string;
+  model!: string;
 
   @IsEnum(VehicleType)
-  vehicleType: VehicleType;
+  vehicleType!: VehicleType;
 
   @IsInt()
   @Min(2)
   @Max(7)
-  seats: number;
+  seats!: number;
 
   @IsInt()
   @Min(2)
   @Max(5)
-  doors: number;
+  doors!: number;
 
   @IsEnum(Condition)
-  condition: Condition;
+  condition!: Condition;
 
   @IsInt()
   @Min(0)
-  price: number;
+  price!: number;
 
   @IsString()
   @Matches(/^\d{4}-(0[1-9]|1[0-2])$/, {
     message: 'Format muss YYYY-MM sein',
   })
-  firstRegistration: string;
+  firstRegistration!: string;
 
   @IsInt()
   @Min(0)
-  mileage: number;
+  mileage!: number;
 
   @IsEnum(FuelType)
-  fuelType: FuelType;
+  fuelType!: FuelType;
 
   @IsInt()
   @Min(0)
-  power: number;
+  power!: number;
 
   @IsInt()
   @Min(0)
-  engineCapacity: number;
+  engineCapacity!: number;
 
   @IsEnum(Drivetrain)
-  drivetrain: Drivetrain;
+  drivetrain!: Drivetrain;
 
   @IsEnum(Transmission)
-  transmission: Transmission;
+  transmission!: Transmission;
 
   @IsString()
-  vin: string;
+  vin!: string;
 
   @IsBoolean()
-  accidentFree: boolean;
+  accidentFree!: boolean;
 
   @IsString()
-  description: string;
+  description!: string;
 
   @IsArray()
   @IsString({ each: true })
-  images: string[]; // массив URL строк, позже заменим на upload
+  images!: string[];
 }
