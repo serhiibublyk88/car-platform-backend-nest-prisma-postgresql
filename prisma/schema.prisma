@@ -64,8 +64,13 @@ enum AuditAction {
   CreateCar
   UpdateCar
   DeleteCar
+
   Login
   Logout
+  
+  MarkInquiryRead
+  HandleInquiry
+  DeleteInquiry
 }
 
 
@@ -111,17 +116,6 @@ model Image {
   carId     String
 }
 
-model Inquiry {
-  id        String   @id @default(cuid())
-  message   String
-  phone     String?
-  email     String?
-  createdAt DateTime @default(now())
-
-  car       Car      @relation(fields: [carId], references: [id])
-  carId     String
-}
-
 model Admin {
   id         String     @id @default(cuid())
   email      String     @unique
@@ -141,4 +135,17 @@ model AuditLog {
 
   admin     Admin    @relation(fields: [adminId], references: [id])
   adminId   String
+}
+
+model Inquiry {
+  id         String   @id @default(uuid())
+  carId      String
+  car        Car      @relation(fields: [carId], references: [id])
+  name       String
+  email      String
+  phone      String?
+  message    String
+  isRead     Boolean  @default(false)
+  isHandled  Boolean  @default(false)
+  createdAt  DateTime @default(now())
 }
