@@ -1,8 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '@/database';
-import { CreateInquiryDto, FilterInquiryDto } from './dto';
-import { Inquiry, AuditAction } from '@prisma/client';
 import { AuditService } from '@/modules/audit';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { AuditAction, Inquiry } from '@prisma/client';
+import { CreateInquiryDto, FilterInquiryDto } from './dto';
 
 @Injectable()
 export class InquiryService {
@@ -38,17 +38,19 @@ export class InquiryService {
   }
 
   async getAll(filter: FilterInquiryDto): Promise<Inquiry[]> {
-    const { carId, isHandled, isRead } = filter;
+    const { carId, isHandled, isRead, limit, offset } = filter;
 
     return this.prisma.inquiry.findMany({
       where: {
-        carId,
-        isHandled,
-        isRead,
+        ...(carId && { carId }),
+        ...(typeof isRead === 'boolean' && { isRead }),
+        ...(typeof isHandled === 'boolean' && { isHandled }),
       },
       orderBy: {
         createdAt: 'desc',
       },
+      take: limit ? Number(limit) : undefined,
+      skip: offset ? Number(offset) : undefined,
       include: {
         car: {
           select: { make: true, model: true },
@@ -65,7 +67,7 @@ export class InquiryService {
       data: { isRead: true },
     });
 
-    await this.audit.log(adminId, AuditAction.MarkInquiryRead as AuditAction);
+    await this.audit.log(adminId, AuditAction.MarkInquiryRead);
     return updated;
   }
 
@@ -77,7 +79,7 @@ export class InquiryService {
       data: { isHandled: true },
     });
 
-    await this.audit.log(adminId, AuditAction.HandleInquiry as AuditAction);
+    await this.audit.log(adminId, AuditAction.HandleInquiry);
     return updated;
   }
 
@@ -88,7 +90,7 @@ export class InquiryService {
       where: { id },
     });
 
-    await this.audit.log(adminId, AuditAction.DeleteInquiry as AuditAction);
+    await this.audit.log(adminId, AuditAction.DeleteInquiry);
     return deleted;
   }
 

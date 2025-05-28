@@ -1,4 +1,5 @@
 import { CurrentUser, JwtAuthGuard, Roles } from '@/modules/auth';
+import { RolesGuard } from '@/modules/auth';
 import { JwtPayload } from '@/modules/auth/strategies/jwt.strategy';
 import {
   Controller,
@@ -12,7 +13,7 @@ import {
 import { FilterInquiryDto } from '../dto';
 import { InquiryService } from '../inquiry.service';
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Roles('ADMIN')
 @Controller('admin/inquiries')
 export class AdminInquiryController {
