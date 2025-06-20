@@ -6,12 +6,16 @@ import path from 'path';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
+  /* ────────────────────────────────── */
+  /* 0. Общие настройки                 */
   { ignores: ['eslint.config.mjs'] },
 
+  /* 1. Базовые рекомендации ESLint + TS */
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   eslintPluginPrettierRecommended,
 
+  /* 2. Основной исходный код проекта   */
   {
     files: ['src/**/*.ts'],
     languageOptions: {
@@ -29,17 +33,29 @@ export default tseslint.config(
     },
   },
 
+  /* 3. Jest-тесты — отключаем "unsafe-call" */
+  {
+    files: ['**/*.spec.ts', '**/*.test.ts'],
+    languageOptions: {
+      globals: { ...globals.node, ...globals.jest },
+    },
+    rules: {
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+    },
+  },
+
+  /* 4. Скрипты, сиды, Prisma-таски     */
   {
     files: ['prisma/**/*.ts', 'src/seed/**/*.ts', 'scripts/**/*.ts'],
     languageOptions: {
       sourceType: 'module',
       globals: globals.node,
-      parserOptions: {
-        ecmaVersion: 'latest',
-      },
+      parserOptions: { ecmaVersion: 'latest' },
     },
   },
 
+  /* 5. Глобальные правила проекта      */
   {
     rules: {
       '@typescript-eslint/no-explicit-any': ['error', { ignoreRestArgs: true }],
@@ -51,10 +67,9 @@ export default tseslint.config(
     },
   },
 
+  /* 6. DTO-папки — смягчаем правило any */
   {
     files: ['src/**/dto/*.ts'],
-    rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
-    },
+    rules: { '@typescript-eslint/no-explicit-any': 'off' },
   },
 );

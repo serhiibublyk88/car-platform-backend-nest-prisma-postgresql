@@ -3,7 +3,13 @@ import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerModule } from '@nestjs/throttler';
 
 import { PrismaModule } from '@/database';
-import { AuthModule, CarModule, InquiryModule } from '@/modules';
+import {
+  AuthModule,
+  CarModule,
+  DashboardModule,
+  InquiryModule,
+} from '@/modules';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -26,6 +32,7 @@ import { AppGuard } from './app.guard';
     AuthModule,
     CarModule,
     InquiryModule,
+    DashboardModule,
   ],
   controllers: [AppController],
   providers: [

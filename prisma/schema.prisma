@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  
 }
 
 datasource db {
@@ -8,7 +7,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//
 // ========== ENUMS ==========
+//
 
 enum VehicleType {
   Unselected
@@ -67,14 +68,15 @@ enum AuditAction {
 
   Login
   Logout
-  
+
   MarkInquiryRead
   HandleInquiry
   DeleteInquiry
 }
 
-
+//
 // ========== MODELS ==========
+//
 
 model Car {
   id                 String     @id @default(cuid())
@@ -105,6 +107,9 @@ model Car {
 
   admin              Admin?     @relation(fields: [adminId], references: [id])
   adminId            String?
+
+  @@index([visible])      // → ускоряет счётчик доступных машин
+  @@index([createdAt])    // → ускоряет «создано за 7 дней»
 }
 
 model Image {
@@ -129,12 +134,14 @@ model Admin {
 }
 
 model AuditLog {
-  id        String   @id @default(cuid())
+  id        String      @id @default(cuid())
   action    AuditAction
-  createdAt DateTime @default(now())
+  createdAt DateTime    @default(now())
 
-  admin     Admin    @relation(fields: [adminId], references: [id])
+  admin     Admin       @relation(fields: [adminId], references: [id])
   adminId   String
+
+  @@index([createdAt])  // → ускоряет выборку «последние 20 действий»
 }
 
 model Inquiry {
@@ -148,4 +155,6 @@ model Inquiry {
   isRead     Boolean  @default(false)
   isHandled  Boolean  @default(false)
   createdAt  DateTime @default(now())
+
+  @@index([isHandled])  // → ускоряет счётчик необработанных заявок
 }
