@@ -1,4 +1,5 @@
 import { PrismaService } from '@/database';
+import { AuditService } from '@/modules/audit/audit.service';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuditAction } from '@prisma/client';
@@ -10,6 +11,7 @@ export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwt: JwtService,
+    private readonly audit: AuditService,
   ) {}
 
   /* ─────────────── LOGIN ─────────────── */
@@ -22,32 +24,20 @@ export class AuthService {
       throw new UnauthorizedException('Ungültige Zugangsdaten');
     }
 
-    await this.prisma.auditLog.create({
-      data: {
-        action: AuditAction.Login,
-        adminId: admin.id,
-      },
-    });
+    await this.audit.log(admin.id, AuditAction.Login);
 
     return this.generateToken(admin.id, admin.email);
   }
 
   /* ─────────────── LOGOUT ─────────────── */
   async logout(adminId: string) {
-    await this.prisma.auditLog.create({
-      data: {
-        action: AuditAction.Logout,
-        adminId,
-      },
-    });
-
+    await this.audit.log(adminId, AuditAction.Logout);
     return { message: 'Erfolgreich abgemeldet' };
   }
 
   /* ─────────────── JWT ─────────────── */
   private generateToken(id: string, email: string) {
     const payload = { id, email, role: 'ADMIN' as const };
-
     return {
       accessToken: this.jwt.sign(payload, {
         expiresIn: process.env.ACCESS_EXP ?? '1h',
