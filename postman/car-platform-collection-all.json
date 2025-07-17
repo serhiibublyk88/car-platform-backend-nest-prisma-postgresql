@@ -1,0 +1,983 @@
+{
+  "info": {
+    "_postman_id": "d95a6aef-f180-4c50-af23-689fb33d5316",
+    "name": "Car Platform (All Modules)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth Module",
+      "item": [
+        {
+          "name": "Login Admin",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var template = `\r",
+                  "<style type=\"text/css\">\r",
+                  "    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+                  "    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+                  "    .tftable tr {background-color:#ffffff;}\r",
+                  "    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+                  "    .tftable tr:hover {background-color:#e0ffff;}\r",
+                  "</style>\r",
+                  "\r",
+                  "<table class=\"tftable\" border=\"1\">\r",
+                  "    <tr>\r",
+                  "        <th>Message</th>\r",
+                  "        <th>Status Code</th>\r",
+                  "    </tr>\r",
+                  "    <tr>\r",
+                  "        <td>{{response.message}}</td>\r",
+                  "        <td>{{response.statusCode}}</td>\r",
+                  "    </tr>\r",
+                  "</table>\r",
+                  "`;\r",
+                  "\r",
+                  "function constructVisualizerPayload() {\r",
+                  "    return { response: pm.response.json() }\r",
+                  "}\r",
+                  "\r",
+                  "pm.visualizer.set(template, constructVisualizerPayload());"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"admin@admin.de\",\n    \"password\": \"adminadmin\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}auth/login",
+              "host": ["{{BASE_URL}}auth"],
+              "path": ["login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{BASE_URL}}auth/logout",
+              "host": ["{{BASE_URL}}auth"],
+              "path": ["logout"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "check tokken",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{BASE_URL}}auth/me",
+              "host": ["{{BASE_URL}}auth"],
+              "path": ["me"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "checkAdmin",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var template = `\r",
+                  "<style type=\"text/css\">\r",
+                  "    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+                  "    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+                  "    .tftable tr {background-color:#ffffff;}\r",
+                  "    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+                  "    .tftable tr:hover {background-color:#e0ffff;}\r",
+                  "</style>\r",
+                  "\r",
+                  "<table class=\"tftable\" border=\"1\">\r",
+                  "    <tr>\r",
+                  "        <th>Message</th>\r",
+                  "        <th>Error</th>\r",
+                  "        <th>Status Code</th>\r",
+                  "    </tr>\r",
+                  "    <tr>\r",
+                  "        <td>{{response.message}}</td>\r",
+                  "        <td>{{response.error}}</td>\r",
+                  "        <td>{{response.statusCode}}</td>\r",
+                  "    </tr>\r",
+                  "</table>\r",
+                  "`;\r",
+                  "\r",
+                  "function constructVisualizerPayload() {\r",
+                  "    return {response: pm.response.json()}\r",
+                  "}\r",
+                  "\r",
+                  "pm.visualizer.set(template, constructVisualizerPayload());"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Cookie",
+                "value": "accessToken={{accessToken}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "{{BASE_URL}}auth/admin-check",
+              "host": ["{{BASE_URL}}auth"],
+              "path": ["admin-check"],
+              "query": [
+                {
+                  "key": "",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Car Module",
+      "item": [
+        {
+          "name": "Admin - Create Car",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"make\": \"BMW\",\n  \"model\": \"X5\",\n  \"vehicleType\": \"Gelaendewagen_Pickup_SUV\",\n  \"seats\": 5,\n  \"doors\": 5,\n  \"condition\": \"Gebraucht\",\n  \"price\": 30000,\n  \"firstRegistration\": \"2020-06\",\n  \"mileage\": 60000,\n  \"fuelType\": \"Diesel\",\n  \"power\": 190,\n  \"engineCapacity\": 1995,\n  \"drivetrain\": \"Allrad\",\n  \"transmission\": \"Automatik\",\n  \"vin\": \"WBADE6321VB123456\",\n  \"accidentFree\": true,\n  \"description\": \"Sehr gepflegt, scheckheftgepflegt.\",\n  \"images\": []\n}\n"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}admin/cars",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["cars"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin - Create Car 2",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"make\": \"Mercedes\",\n  \"model\": \"C200\",\n  \"vehicleType\": \"Limousine\",\n  \"seats\": 5,\n  \"doors\": 4,\n  \"condition\": \"Gebraucht\",\n  \"price\": 18000,\n  \"firstRegistration\": \"2019-06\",\n  \"mileage\": 45000,\n  \"fuelType\": \"Benzin\",\n  \"power\": 184,\n  \"engineCapacity\": 1991,\n  \"drivetrain\": \"Heckantrieb\",\n  \"transmission\": \"Automatik\",\n  \"vin\": \"WDD123456780002\",\n  \"accidentFree\": true,\n  \"description\": \"Sample car 2\",\n  \"images\": []\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}admin/cars",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["cars"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin - Create Car 3",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"make\": \"Mercedes\",\n  \"model\": \"C200\",\n  \"vehicleType\": \"Limousine\",\n  \"seats\": 5,\n  \"doors\": 4,\n  \"condition\": \"Gebraucht\",\n  \"price\": 18000,\n  \"firstRegistration\": \"2019-06\",\n  \"mileage\": 45000,\n  \"fuelType\": \"Benzin\",\n  \"power\": 184,\n  \"engineCapacity\": 1991,\n  \"drivetrain\": \"Heckantrieb\",\n  \"transmission\": \"Automatik\",\n  \"vin\": \"WDD123456780003\",\n  \"accidentFree\": true,\n  \"description\": \"Sample car 3\",\n  \"images\": []\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}admin/cars",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["cars"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin - Create Car 4",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"make\": \"Audi\",\n  \"model\": \"A4\",\n  \"vehicleType\": \"Limousine\",\n  \"seats\": 5,\n  \"doors\": 4,\n  \"condition\": \"Gebraucht\",\n  \"price\": 22500,\n  \"firstRegistration\": \"2020-03\",\n  \"mileage\": 38000,\n  \"fuelType\": \"Diesel\",\n  \"power\": 150,\n  \"engineCapacity\": 1968,\n  \"drivetrain\": \"Frontantrieb\",\n  \"transmission\": \"Automatik\",\n  \"vin\": \"WAUZZZ12345678004\",\n  \"accidentFree\": true,\n  \"description\": \"Sample car 4 \u2014 Audi A4, gepflegt.\",\n  \"images\": []\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}admin/cars",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["cars"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin - Get All Cars",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}admin/cars",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["cars"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin - Get Car by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}admin/cars/cmb0q5d8s000625i0cjtgjj67",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["cars", "cmb0q5d8s000625i0cjtgjj67"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin - Update Car",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"price\": 28000,\n  \"description\": \"Preis reduziert.\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}admin/cars/cmb0q5d8s000625i0cjtgjj67",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["cars", "cmb0q5d8s000625i0cjtgjj67"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin - Delete Car",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}admin/cars/cmb0qth1t000c25i0la4puoq0",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["cars", "cmb0qth1t000c25i0la4puoq0"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin - Toggle Car Visibility",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"visible\": true\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}admin/cars/cmb0q5d8s000625i0cjtgjj67/visibility",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["cars", "cmb0q5d8s000625i0cjtgjj67", "visibility"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Public - Get Visible Cars (with filters)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}cars?search=BMW&page=1&limit=10",
+              "host": ["{{BASE_URL}}cars"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "BMW"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Public - Get Car by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}cars/cmb0q5d8s000625i0cjtgjj67",
+              "host": ["{{BASE_URL}}cars"],
+              "path": ["cmb0q5d8s000625i0cjtgjj67"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin - Create Car 5",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"make\": \"Volkswagen\",\n  \"model\": \"Golf\",\n  \"vehicleType\": \"Kombi\",\n  \"seats\": 5,\n  \"doors\": 5,\n  \"condition\": \"Gebraucht\",\n  \"price\": 16500,\n  \"firstRegistration\": \"2020-06\",\n  \"mileage\": 60000,\n  \"fuelType\": \"Diesel\",\n  \"power\": 150,\n  \"engineCapacity\": 1968,\n  \"drivetrain\": \"Allrad\",\n  \"transmission\": \"Automatik\",\n  \"vin\": \"WVWZZZ12345678005\",\n  \"accidentFree\": true,\n  \"description\": \"Sample car 5 \u2014 VW Golf Alltrack.\",\n  \"images\": [],\n  \"visible\": false\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}admin/cars",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["cars"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin - Create Car 6",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"make\": \"Ford\",\n  \"model\": \"Focus\",\n  \"vehicleType\": \"Kombi\",\n  \"seats\": 5,\n  \"doors\": 5,\n  \"condition\": \"Gebraucht\",\n  \"price\": 9000,\n  \"firstRegistration\": \"2020-06\",\n  \"mileage\": 60000,\n  \"fuelType\": \"Diesel\",\n  \"power\": 190,\n  \"engineCapacity\": 1995,\n  \"drivetrain\": \"Allrad\",\n  \"transmission\": \"Automatik\",\n  \"vin\": \"WF0ABC3456700006\",\n  \"accidentFree\": true,\n  \"description\": \"Sample car 6\",\n  \"images\": [],\n  \"visible\": false\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}admin/cars",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["cars"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin - Toggle Car Visibility 5",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"visible\": true\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}admin/cars/{{CAR_ID_5}}/visibility",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["cars", "{CAR_ID_5}", "visibility"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin - Toggle Car Visibility 6",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"visible\": true\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}admin/cars/{{CAR_ID_6}}/visibility",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["cars", "{CAR_ID_6}", "visibility"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Inquiry Module",
+      "item": [
+        {
+          "name": "Public - Send Inquiry",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Max Mustermann\",\n  \"email\": \"max@example.com\",\n  \"phone\": \"01701234567\",\n  \"message\": \"Ich interessiere mich f\u00fcr dieses Fahrzeug.\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}cars/cmb0q5d8s000625i0cjtgjj67/inquiry",
+              "host": ["{{BASE_URL}}cars"],
+              "path": ["cmb0q5d8s000625i0cjtgjj67", "inquiry"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin - Get All Inquiries",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}admin/inquiries",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["inquiries"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin - Mark as Read",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}admin/inquiries/{{inquiryId}}/read",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["inquiries", "{{inquiryId}}", "read"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin - Mark as Handled",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}admin/inquiries/{{inquiryId}}/handle",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["inquiries", "{{inquiryId}}", "handle"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin - Delete Inquiry",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}admin/inquiries/{{inquiryId}}",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["inquiries", "{{inquiryId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Public - Send Inquiry 4",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Daisy\",\n  \"email\": \"daisy@example.com\",\n  \"phone\": \"000-000\",\n  \"message\": \"Auto inquiry\"\n}"
+            },
+            "url": {
+              "raw": "{BASE_URL}cars/{{CAR_ID_5}}/inquiry",
+              "host": ["{{BASE_URL}}cars"],
+              "path": ["{{CAR_ID_5}}", "inquiry"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Public - Send Inquiry 5",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Eve\",\n  \"email\": \"eve@example.com\",\n  \"phone\": \"000-000\",\n  \"message\": \"Auto inquiry\"\n}"
+            },
+            "url": {
+              "raw": "{BASE_URL}cars/{{CAR_ID_6}}/inquiry",
+              "host": ["{{BASE_URL}}cars"],
+              "path": ["{{CAR_ID_6}}", "inquiry"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Inquiry Module / Admin",
+      "item": [
+        {
+          "name": "Get All Inquiries",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}admin/inquiries",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["inquiries"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Filter by isRead",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}admin/inquiries?isRead=true",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["inquiries"],
+              "query": [
+                {
+                  "key": "isRead",
+                  "value": "true"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Filter by isHandled",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}admin/inquiries?isHandled=true",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["inquiries"],
+              "query": [
+                {
+                  "key": "isHandled",
+                  "value": "true"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Filter by carId",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}admin/inquiries?carId=cmb0q5d8s000625i0cjtgjj67",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["inquiries"],
+              "query": [
+                {
+                  "key": "carId",
+                  "value": "cmb0q5d8s000625i0cjtgjj67"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Filter by all",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}admin/inquiries?isRead=false&isHandled=true&carId=cmb0q5d8s000625i0cjtgjj67",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["inquiries"],
+              "query": [
+                {
+                  "key": "isRead",
+                  "value": "false"
+                },
+                {
+                  "key": "isHandled",
+                  "value": "true"
+                },
+                {
+                  "key": "carId",
+                  "value": "cmb0q5d8s000625i0cjtgjj67"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "With pagination (limit & offset)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}admin/inquiries?limit=5&offset=0",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["inquiries"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "5"
+                },
+                {
+                  "key": "offset",
+                  "value": "0"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin - Mark as Read (1)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}admin/inquiries/{{INQ_ID_1}}/read",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["inquiries", "{INQ_ID_1}", "read"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin - Mark as Handled (1)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}admin/inquiries/{{INQ_ID_1}}/handle",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["inquiries", "{INQ_ID_1}", "handle"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin - Mark as Read (2)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}admin/inquiries/{{INQ_ID_2}}/read",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["inquiries", "{INQ_ID_2}", "read"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin - Mark as Handled (2)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}admin/inquiries/{{INQ_ID_2}}/handle",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["inquiries", "{INQ_ID_2}", "handle"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin - Mark as Read (3)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}admin/inquiries/{{INQ_ID_3}}/read",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["inquiries", "{INQ_ID_3}", "read"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin - Mark as Handled (3)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}admin/inquiries/{{INQ_ID_3}}/handle",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["inquiries", "{INQ_ID_3}", "handle"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin - Mark as Read (4)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}admin/inquiries/{{INQ_ID_4}}/read",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["inquiries", "{INQ_ID_4}", "read"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin - Mark as Handled (4)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}admin/inquiries/{{INQ_ID_4}}/handle",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["inquiries", "{INQ_ID_4}", "handle"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin - Mark as Read (5)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}admin/inquiries/{{INQ_ID_5}}/read",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["inquiries", "{INQ_ID_5}", "read"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Admin - Mark as Handled (5)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}admin/inquiries/{{INQ_ID_5}}/handle",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["inquiries", "{INQ_ID_5}", "handle"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Dashboard Module",
+      "item": [
+        {
+          "name": "Get Dashboard (cookie)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "// If JWT_TOKEN variable is defined, set cookie header manually",
+                  "if (pm.environment.get('JWT_TOKEN')) {",
+                  "    pm.request.headers.upsert({",
+                  "        key: 'Cookie',",
+                  "        value: `Authentication=${pm.environment.get('JWT_TOKEN')}`",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}admin/dashboard",
+              "host": ["{{BASE_URL}}admin"],
+              "path": ["dashboard"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
