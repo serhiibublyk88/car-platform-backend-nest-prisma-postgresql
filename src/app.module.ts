@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { APP_GUARD } from '@nestjs/core';
-import { ThrottlerModule } from '@nestjs/throttler';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 import { PrismaModule } from '@/database';
 import {
@@ -11,22 +11,16 @@ import {
 } from '@/modules';
 
 import { AppController } from './app.controller';
+import { AppGuard } from './app.guard';
 import { AppService } from './app.service';
 
+import { PrismaExceptionFilter } from '@/filters';
 import { JwtAuthGuard, RolesGuard } from '@/modules/auth';
-
-import { ThrottlerGuard } from '@nestjs/throttler';
-import { AppGuard } from './app.guard';
 
 @Module({
   imports: [
     ThrottlerModule.forRoot({
-      throttlers: [
-        {
-          ttl: 60,
-          limit: 5,
-        },
-      ],
+      throttlers: [{ ttl: 60, limit: 5 }],
     }),
     PrismaModule,
     AuthModule,
@@ -34,16 +28,16 @@ import { AppGuard } from './app.guard';
     InquiryModule,
     DashboardModule,
   ],
+
   controllers: [AppController],
+
   providers: [
     AppService,
     ThrottlerGuard,
     RolesGuard,
     JwtAuthGuard,
-    {
-      provide: APP_GUARD,
-      useClass: AppGuard,
-    },
+    { provide: APP_GUARD, useClass: AppGuard },
+    { provide: APP_FILTER, useClass: PrismaExceptionFilter },
   ],
 })
 export class AppModule {}
