@@ -8,13 +8,14 @@ import {
   CarModule,
   DashboardModule,
   InquiryModule,
+  UploadModule,
 } from '@/modules';
 
 import { AppController } from './app.controller';
 import { AppGuard } from './app.guard';
 import { AppService } from './app.service';
 
-import { PrismaExceptionFilter } from '@/filters';
+import { MulterExceptionFilter, PrismaExceptionFilter } from '@/filters';
 import { JwtAuthGuard, RolesGuard } from '@/modules/auth';
 
 @Module({
@@ -27,6 +28,7 @@ import { JwtAuthGuard, RolesGuard } from '@/modules/auth';
     CarModule,
     InquiryModule,
     DashboardModule,
+    UploadModule,
   ],
 
   controllers: [AppController],
@@ -38,6 +40,7 @@ import { JwtAuthGuard, RolesGuard } from '@/modules/auth';
     JwtAuthGuard,
     { provide: APP_GUARD, useClass: AppGuard },
     { provide: APP_FILTER, useClass: PrismaExceptionFilter },
+    { provide: APP_FILTER, useClass: MulterExceptionFilter },
   ],
 })
 export class AppModule {}
