@@ -25,11 +25,13 @@ export const multerOptions: Options = {
   },
 };
 
-export async function processImage(path: string): Promise<void> {
-  const buffer = await sharp(path)
+export async function processImage(filePath: string): Promise<void> {
+  const tmp = `${filePath}.tmp`;
+
+  await sharp(filePath)
     .resize(1920, 1280, { fit: 'inside' })
     .jpeg({ quality: 80 })
-    .toBuffer();
+    .toFile(tmp);
 
-  await fs.promises.writeFile(path, buffer);
+  await fs.promises.rename(tmp, filePath);
 }
